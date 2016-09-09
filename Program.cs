@@ -1,5 +1,4 @@
-﻿using System;
-using HelloWorld;
+﻿using HelloWorld;
 using Microsoft.AspNetCore.Hosting;
 
 namespace ConsoleApplication
