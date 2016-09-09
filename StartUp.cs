@@ -10,6 +10,8 @@ namespace HelloWorld
             this.ConfigureMapping(app);
             //app.Run(context => context.Response.WriteAsync("Hello world"));
 
+            app.UseTimer();
+
             app.Use(async (context, next) =>
             {
                 await FirstResponse(context);
@@ -19,7 +21,7 @@ namespace HelloWorld
             app.Run(async context =>
             {
                 await SecondResponse(context);
-            });
+            });  
         }
 
         public static async Task FirstResponse(HttpContext context)
