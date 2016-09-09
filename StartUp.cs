@@ -1,6 +1,9 @@
+using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -9,9 +12,16 @@ namespace HelloWorld
 {
     public class Startup
     {
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseTimer();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
 
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -25,12 +35,51 @@ namespace HelloWorld
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"images"))
             });
 
-            app.Run(context => context.Response.WriteAsync("Hello world"));
+            app.UseStatusCodePages();
+            app.MapWhen(context => context.Request.Path == "/missingpage", builder => { });
+
+            app.Map("/error", error => ErrorPage(error));
+            app.UseTimer();
+            HomePage(app);
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDirectoryBrowser();
+        }
+
+        public static void HomePage(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                if (context.Request.Query.ContainsKey("throw"))
+                {
+                    throw new Exception("Exception triggered!");
+                }
+                var builder = new StringBuilder();
+                builder.AppendLine("<html><body>Hello World!");
+                builder.AppendLine("<ul>");
+                builder.AppendLine("<li><a href=\"/?throw=true\">Throw Exception </ a ></ li > ");
+                builder.AppendLine("<li><a href=\"/missingpage\">Missing Page </ a ></ li > ");
+                builder.AppendLine("<li><a href=\"/images\">Images</a></li>");
+                builder.AppendLine("</ul>");
+                builder.AppendLine("</body></html>");
+                context.Response.ContentType = "text/html";
+                await context.Response.WriteAsync(builder.ToString());
+            });
+        }
+
+        public static void ErrorPage(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                var builder = new StringBuilder();
+                builder.AppendLine("<html><body>");
+                builder.AppendLine("An error occurred");
+                builder.AppendLine("</body></html>");
+                context.Response.ContentType = "text/html";
+                await context.Response.WriteAsync(builder.ToString());
+            });
         }
     }
 }
