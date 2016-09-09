@@ -1,50 +1,36 @@
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+
 namespace HelloWorld
 {
     public class Startup
     {
         public void Configure(IApplicationBuilder app)
         {
-            this.ConfigureMapping(app);
-            //app.Run(context => context.Response.WriteAsync("Hello world"));
-
             app.UseTimer();
 
-            app.Use(async (context, next) =>
+            app.UseStaticFiles(new StaticFileOptions
             {
-                await FirstResponse(context);
-                await next.Invoke();
+                RequestPath = new PathString("/images"),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"images"))
             });
 
-            app.Run(async context =>
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
             {
-                await SecondResponse(context);
-            });  
-        }
-
-        public static async Task FirstResponse(HttpContext context)
-        {
-            await context.Response.WriteAsync("Hello from the first handler<br />");
-        }
-
-        public static async Task SecondResponse(HttpContext context)
-        {
-            await context.Response.WriteAsync("Hello from the second handler");
-        }
-
-         private static void HandleMapTest(IApplicationBuilder app)
-        {
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Map Test Successful");
+                RequestPath = new PathString("/images"),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"images"))
             });
+
+            app.Run(context => context.Response.WriteAsync("Hello world"));
         }
 
-        public void ConfigureMapping(IApplicationBuilder app)
+        public void ConfigureServices(IServiceCollection services)
         {
-            app.Map("/test", HandleMapTest);
+            services.AddDirectoryBrowser();
         }
     }
 }
