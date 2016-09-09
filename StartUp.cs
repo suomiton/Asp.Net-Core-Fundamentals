@@ -26,12 +26,13 @@ namespace HelloWorld
         {
             await context.Response.WriteAsync("Hello from the first handler<br />");
         }
+
         public static async Task SecondResponse(HttpContext context)
         {
             await context.Response.WriteAsync("Hello from the second handler");
         }
 
-        private static void HandleMapTest(IApplicationBuilder app)
+         private static void HandleMapTest(IApplicationBuilder app)
         {
             app.Run(async context =>
             {
