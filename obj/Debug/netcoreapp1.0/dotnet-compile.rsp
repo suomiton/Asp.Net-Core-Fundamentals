@@ -146,6 +146,7 @@
 --reference:/Users/suomiton/.nuget/packages/System.Runtime.InteropServices.RuntimeInformation/4.0.0/ref/netstandard1.1/System.Runtime.InteropServices.RuntimeInformation.dll
 --reference:/Users/suomiton/.nuget/packages/System.Runtime.Loader/4.0.0/ref/netstandard1.5/System.Runtime.Loader.dll
 --reference:/Users/suomiton/.nuget/packages/System.Runtime.Numerics/4.0.1/ref/netstandard1.1/System.Runtime.Numerics.dll
+--reference:/Users/suomiton/.nuget/packages/System.Runtime.Serialization.Json/4.0.2/ref/netstandard1.0/System.Runtime.Serialization.Json.dll
 --reference:/Users/suomiton/.nuget/packages/System.Runtime.Serialization.Primitives/4.1.1/ref/netstandard1.3/System.Runtime.Serialization.Primitives.dll
 --reference:/Users/suomiton/.nuget/packages/System.Security.Claims/4.0.1/ref/netstandard1.3/System.Security.Claims.dll
 --reference:/Users/suomiton/.nuget/packages/System.Security.Cryptography.Algorithms/4.2.0/ref/netstandard1.6/System.Security.Cryptography.Algorithms.dll
@@ -170,6 +171,7 @@
 --reference:/Users/suomiton/.nuget/packages/System.Xml.XDocument/4.0.11/ref/netstandard1.3/System.Xml.XDocument.dll
 /Users/suomiton/projects/gits/Asp.Net-Core-Fundamentals/HomeController.cs
 /Users/suomiton/projects/gits/Asp.Net-Core-Fundamentals/MyOptions.cs
+/Users/suomiton/projects/gits/Asp.Net-Core-Fundamentals/MySession.cs
 /Users/suomiton/projects/gits/Asp.Net-Core-Fundamentals/Program.cs
 /Users/suomiton/projects/gits/Asp.Net-Core-Fundamentals/StartUp.cs
 /Users/suomiton/projects/gits/Asp.Net-Core-Fundamentals/TimeMiddleware.cs
