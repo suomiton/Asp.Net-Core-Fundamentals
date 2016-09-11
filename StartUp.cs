@@ -65,6 +65,7 @@ namespace HelloWorld
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDirectoryBrowser();
+            services.AddSingleton<MyOptions>(Options);
             services.AddMvc();
         }
 
