@@ -13,6 +13,8 @@ namespace HelloWorld
 {
     public class Startup
     {
+        public MyOptions Options { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -23,6 +25,9 @@ namespace HelloWorld
             //Debug
             Console.WriteLine("Greeting:" + configuration["Greeting"]);
             Console.WriteLine("FontSize:" + configuration["FontSize"]);
+
+            Options = new MyOptions();
+            configuration.Bind(Options);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -53,7 +58,7 @@ namespace HelloWorld
 
             app.Map("/error", error => ErrorPage(error));
             app.UseTimer();
-            HomePage(app);
+            HomePage(app, this.Options);
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -61,7 +66,7 @@ namespace HelloWorld
             services.AddDirectoryBrowser();
         }
 
-        public static void HomePage(IApplicationBuilder app)
+        public static void HomePage(IApplicationBuilder app, MyOptions options)
         {
             app.Run(async context =>
             {
@@ -76,6 +81,7 @@ namespace HelloWorld
                 builder.AppendLine("<li><a href=\"/missingpage\">Missing Page </ a ></ li > ");
                 builder.AppendLine("<li><a href=\"/images\">Images</a></li>");
                 builder.AppendLine("</ul>");
+                builder.AppendLine( $"<html><body><font size='{options.FontSize}'>{options.Greeting}</font size>");
                 builder.AppendLine("</body></html>");
                 context.Response.ContentType = "text/html";
                 await context.Response.WriteAsync(builder.ToString());
