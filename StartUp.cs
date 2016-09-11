@@ -58,12 +58,14 @@ namespace HelloWorld
 
             app.Map("/error", error => ErrorPage(error));
             app.UseTimer();
-            HomePage(app, this.Options);
+            app.Map("/base", applic => HomePage(applic, Options));
+            app.UseMvcWithDefaultRoute();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDirectoryBrowser();
+            services.AddMvc();
         }
 
         public static void HomePage(IApplicationBuilder app, MyOptions options)
