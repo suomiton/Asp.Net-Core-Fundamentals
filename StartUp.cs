@@ -59,6 +59,7 @@ namespace HelloWorld
             app.Map("/error", error => ErrorPage(error));
             app.UseTimer();
             app.Map("/base", applic => HomePage(applic, Options));
+            app.UseSession();
             app.UseMvcWithDefaultRoute();
         }
 
@@ -66,6 +67,8 @@ namespace HelloWorld
         {
             services.AddDirectoryBrowser();
             services.AddSingleton<MyOptions>(Options);
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddMvc();
         }
 
